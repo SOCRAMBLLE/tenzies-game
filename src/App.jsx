@@ -16,9 +16,12 @@ function App() {
     );
     if (allIsHeld && allValueSame) {
       setTenzies(true);
-      console.log("You won!!");
     }
   }, [diceArray]);
+
+  useEffect(() => {
+    tenzies && console.log("You won!!");
+  }, [tenzies]);
 
   function generateDiceArray() {
     const randomDiceNumber = () => Math.floor(Math.random() * 6) + 1;
