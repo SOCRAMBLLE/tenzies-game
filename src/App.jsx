@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Dice from "./components/Dice";
+import RollButton from "./components/RollButton";
 
 function App() {
   const [diceArray, setDiceArray] = useState(generateDiceArray());
@@ -11,6 +12,11 @@ function App() {
     );
     return randomDiceArray;
   }
+
+  function rollDice() {
+    setDiceArray(generateDiceArray());
+  }
+
   return (
     <main>
       <div className="dice-container">
@@ -18,6 +24,7 @@ function App() {
           <Dice key={index} value={dice} />
         ))}
       </div>
+      <RollButton rollDice={rollDice} />
     </main>
   );
 }
