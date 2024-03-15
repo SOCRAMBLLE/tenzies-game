@@ -24,7 +24,7 @@ function App() {
     <main>
       <div className="dice-container">
         {diceArray.map((dice) => (
-          <Dice key={dice.id} value={dice.value} />
+          <Dice isHeld={dice.isHeld} key={dice.id} value={dice.value} />
         ))}
       </div>
       <RollButton rollDice={rollDice} />
