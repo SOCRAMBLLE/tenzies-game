@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Dice from "./components/Dice";
 import RollButton from "./components/RollButton";
+import { nanoid } from "nanoid";
 
 function App() {
   const [diceArray, setDiceArray] = useState(generateDiceArray());
@@ -10,6 +11,7 @@ function App() {
     const randomDiceArray = Array.from({ length: 10 }, () => ({
       value: randomDiceNumber(),
       isHeld: false,
+      id: nanoid(),
     }));
     return randomDiceArray;
   }
@@ -21,8 +23,8 @@ function App() {
   return (
     <main>
       <div className="dice-container">
-        {diceArray.map((dice, index) => (
-          <Dice key={index} value={dice.value} />
+        {diceArray.map((dice) => (
+          <Dice key={dice.id} value={dice.value} />
         ))}
       </div>
       <RollButton rollDice={rollDice} />
