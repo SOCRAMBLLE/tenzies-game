@@ -2,7 +2,7 @@
 export default function RollButton(props) {
   return (
     <button className="roll-btn" onClick={props.rollDice}>
-      Roll
+      {props.tenzies ? "New Game" : "Roll"}
     </button>
   );
 }

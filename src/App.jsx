@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Dice from "./components/Dice";
 import RollButton from "./components/RollButton";
 import { nanoid } from "nanoid";
 import Header from "./components/Header";
-import { useEffect } from "react";
+import Confetti from "react-confetti";
 
 function App() {
   const [diceArray, setDiceArray] = useState(generateDiceArray());
@@ -19,10 +19,6 @@ function App() {
     }
   }, [diceArray]);
 
-  useEffect(() => {
-    tenzies && console.log("You won!!");
-  }, [tenzies]);
-
   function generateDiceArray() {
     const randomDiceNumber = () => Math.floor(Math.random() * 6) + 1;
     const randomDiceArray = Array.from({ length: 10 }, () => ({
@@ -35,13 +31,19 @@ function App() {
 
   function rollDice() {
     const randomDiceNumber = () => Math.floor(Math.random() * 6) + 1;
-    setDiceArray((prev) =>
-      prev.map((dice) => {
-        return dice.isHeld === false
-          ? { ...dice, value: randomDiceNumber() }
-          : dice;
-      })
-    );
+
+    if (tenzies) {
+      setDiceArray(generateDiceArray());
+      setTenzies(false);
+    } else {
+      setDiceArray((prev) =>
+        prev.map((dice) => {
+          return dice.isHeld === false
+            ? { ...dice, value: randomDiceNumber() }
+            : dice;
+        })
+      );
+    }
   }
 
   function holdDice(id) {
@@ -53,7 +55,8 @@ function App() {
   }
   return (
     <main>
-      <Header />
+      {tenzies && <Confetti />}
+      <Header tenzies={tenzies} />
       <div className="dice-container">
         {diceArray.map((dice) => (
           <Dice
@@ -64,7 +67,7 @@ function App() {
           />
         ))}
       </div>
-      <RollButton rollDice={rollDice} />
+      <RollButton rollDice={rollDice} tenzies={tenzies} />
     </main>
   );
 }
