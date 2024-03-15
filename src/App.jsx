@@ -2,9 +2,23 @@ import { useState } from "react";
 import Dice from "./components/Dice";
 import RollButton from "./components/RollButton";
 import { nanoid } from "nanoid";
+import Header from "./components/Header";
+import { useEffect } from "react";
 
 function App() {
   const [diceArray, setDiceArray] = useState(generateDiceArray());
+  const [tenzies, setTenzies] = useState(false);
+
+  useEffect(() => {
+    const allIsHeld = diceArray.every((el) => el.isHeld);
+    const allValueSame = diceArray.every(
+      (el) => el.value === diceArray[0].value
+    );
+    if (allIsHeld && allValueSame) {
+      setTenzies(true);
+      console.log("You won!!");
+    }
+  }, [diceArray]);
 
   function generateDiceArray() {
     const randomDiceNumber = () => Math.floor(Math.random() * 6) + 1;
@@ -34,10 +48,9 @@ function App() {
       })
     );
   }
-
-  console.log(diceArray);
   return (
     <main>
+      <Header />
       <div className="dice-container">
         {diceArray.map((dice) => (
           <Dice
